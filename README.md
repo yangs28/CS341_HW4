@@ -1,2 +1,2 @@
 # CS341_HW3
-HW3 for CS341
+The GitHub repository for Homework assignment 3 for CS341. 
