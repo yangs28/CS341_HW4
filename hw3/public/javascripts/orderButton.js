@@ -21,10 +21,29 @@ $("#orderButton").click(function () {
     }
 
     //If order contains any form of the word vegan, warn the user that the order contains dairy (I'm not sure what they were expecting as they are ordering cheesecake)
-    if (orderNotes.includes("vegan") || orderNotes.includes("Vegan")) {
+    if (veganCheck()) {
     alert("The order you submitted contains dairy!");
     } else {
-      //Otherwise, hides everything and changes the text thanking the customer for their order
+        orderSummary();
+        alert("Order submitted successfully!");
+    }
+});
+
+//Helper function that checks if order contains any form of the word vegan
+function veganCheck() {
+    var orderNotes = $("#orderNotes").val();
+    if (orderNotes.includes("vegan") || orderNotes.includes("Vegan")) {
+        return true;
+    } else {
+        return false;
+    }
+}
+
+//Helper function that hides the order form and displays the order summary after a successful order
+function orderSummary() {
+    var orderNotes = $("#orderNotes").val();
+    var toppingOption = $("input[name='toppingOption']:checked").val();
+    var quantity = $("#quantity").val();
     $("#orderNotes").hide();
     $("#orderTable").hide();
     $("#orderButton").hide();
@@ -36,9 +55,8 @@ $("#orderButton").click(function () {
         " topping. You have ordered " +
         $("#quantity").val() +
         " cheesecake(s). You have the following notes: " +
-        orderNotes,
+        orderNotes
     );
-    alert("Order submitted successfully!");
-    }
+}
 });
-});
+
