@@ -9,11 +9,6 @@
 $(document).ready(function () {
 //Catches any orders
 $("#orderButton").click(function () {
-    //Helper variables that store values of data collected from the site
-    var orderNotes = $("#orderNotes").val();
-    var toppingOption = $("input[name='toppingOption']:checked").val();
-    var toppingSelected = $("input[name='toppingOption']:checked");
-
     //Requires a topping selection for all orders before it can be registered. Prevents errors where the topping order is undefined
     if (!toppingSelected.length) {
     alert("You have not selected a topping option!");
