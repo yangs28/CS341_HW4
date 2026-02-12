@@ -3,6 +3,7 @@ var router = express.Router();
 
 /* GET orders page. */
 router.get('/', function(req, res, next) {
+    //Displays json data for the orders page. Data currently hard coded
 res.json({
     title: 'Orders',
     data: [
@@ -13,9 +14,9 @@ res.json({
 });
 });
 
-router.post('/orders', function(req, res) {
+//Processes a POST request. If you receive a post it should update to the order info for the selected month
+router.post('/', function(req, res) {
     const selectedMonth = req.body.monthText;
-    console.log("Selected month: " + selectedMonth);
     res.json({
         title: 'Orders for ' + selectedMonth,
         data: [

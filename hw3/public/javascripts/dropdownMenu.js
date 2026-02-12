@@ -9,12 +9,15 @@
       //When a month is selected from the drop-down, change the month accordingly 
     $(".dropdown-content a").click(function(){
         var selectedMonth = $(this).text();
+        //Attempts to convert the selectedMonth to a text object for sending
         var monthText = selectedMonth.toLowerCase();
         const button = document.getElementById("dropbtn");
         $("#dropbtn").text(selectedMonth);
 
-        $.post("/", { monthText: monthText }, function(data) {
+        //Sends a post to the server with the info 
+        $.post("/orders", { monthText: monthText }, function(data) {
             console.log(data);
+            //Redirects to the orders page with the json information
             window.location.href = "/orders";
         });
 
