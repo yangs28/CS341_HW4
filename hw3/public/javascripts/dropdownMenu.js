@@ -19,13 +19,11 @@
             console.log(data);
             //Clears the current list 
             $("#orderDetails").html("");
-
-            data.data.forEach(function(order) {
-                $("#orderDetails").append( "<li>" + order.quantity + " " + order.topping);
-            });
+            //Adds new content to the list based on the data received from the server
+            for(var i = 0; i < data.data.length; i++) {
+                var order = data.data[i];
+                $("#orderDetails").append( "<li>" + order.quantity + " " + order.topping + "</li>" );
+            }
         });
-
-
-
     });
 });
