@@ -1,6 +1,9 @@
 var express = require('express');
 var router = express.Router();
 
+//Big Data from database (my naming scheme is always impeccable)
+var bigData = require('./dbms_promise');
+
 /* GET orders page. */
 router.get('/', function(req, res, next) {
     //Displays default json data for the orders page. Data currently hard coded
@@ -15,147 +18,38 @@ res.json({
 });
 
 //Processes a POST request. If you receive a post it should update to the order info for the selected month
-router.post('/', function(req, res) {
+//I had to change this to be an async function because it db queries kept being angry >:(
+router.post('/', async function(req, res) {
+    //Selected month grabs the abbreviated month from dropdown menu. Afterwards it is converted to an int for use with the database
     const selectedMonth = req.body.monthText;
+    const monthToInt = {
+        "jan": 1,
+        "feb": 2,
+        "mar": 3,
+        "apr": 4,
+        "may": 5,
+        "jun": 6,
+        "jul": 7,
+        "aug": 8,
+        "sep": 9,
+        "oct": 10,
+        "nov": 11,
+        "dec": 12
+    };
+    const monthInt = monthToInt[selectedMonth];
     console.log("Post received:", selectedMonth);
 
-//Checks month received and sends appropriate JSON data. Right now each month has hardcoded data, this is just a hack fix
-    switch (selectedMonth) {
-        case 'jan':
-            console.log("January orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":2},
-    {"topping":"chocolate", "quantity":6},
-    {"topping":"plain", "quantity":3}
-]   
-});
-            break;
-        case 'feb':
-            console.log("February orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":2},
-    {"topping":"chocolate", "quantity":8},
-    {"topping":"plain", "quantity":14}
-]   
-});     
-            break;
-        case 'mar':
-            console.log("March orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":69},
-    {"topping":"chocolate", "quantity":420},
-    {"topping":"plain", "quantity":0}
-]   
-});
-            break;
-        case 'apr':
-            console.log("April orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":1},
-    {"topping":"chocolate", "quantity":2},
-    {"topping":"plain", "quantity":3}
-]   
-});
-            break;
-        case 'may':
-            console.log("May orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":4},
-    {"topping":"chocolate", "quantity":2},
-    {"topping":"plain", "quantity":2}
-]   
-});
-            break;
-        case 'jun':
-            console.log("June orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":7},
-    {"topping":"chocolate", "quantity":4},
-    {"topping":"plain", "quantity":3}
-]   
-});
-            break;
-        case 'jul':
-            console.log("July orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":1},
-    {"topping":"chocolate", "quantity":2},
-    {"topping":"plain", "quantity":6}
-]   
-});
-            break;
-        case 'aug':
-            console.log("August orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":2},
-    {"topping":"chocolate", "quantity":6},
-    {"topping":"plain", "quantity":3}
-]   
-});
-            break;
-        case 'sep':
-            console.log("September orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":9},
-    {"topping":"chocolate", "quantity":9},
-    {"topping":"plain", "quantity":9}
-]   
-});
-            break;
-        case 'oct':
-            console.log("October orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":5},
-    {"topping":"chocolate", "quantity":4},
-    {"topping":"plain", "quantity":2}
-]   
-});
-            break;
-        case 'nov':
-            console.log("November orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":5},
-    {"topping":"chocolate", "quantity":6},
-    {"topping":"plain", "quantity":7}
-]   
-});
-            break;
-        case 'dec':
-            console.log("December orders");
-            res.json({
-    title: 'Orders from ' + selectedMonth,
-    data: [
-    {"topping":"cherry", "quantity":1},
-    {"topping":"chocolate", "quantity":6},
-    {"topping":"plain", "quantity":3}
-]   
-});
-            break;
-        default:
-            console.log("Invalid month received");
-    }
-});
+    const toppings = await bigData.dbquery(`SELECT * FROM toppings`);
 
+    res.json({
+
+        title: 'Orders for ' + selectedMonth,
+        data: [
+            {"topping":toppings[0].topping, "quantity":2},
+            {"topping":toppings[1].topping, "quantity":6},
+            {"topping":toppings[2].topping, "quantity":3}
+        ]
+    });
+});
 module.exports = router;
+

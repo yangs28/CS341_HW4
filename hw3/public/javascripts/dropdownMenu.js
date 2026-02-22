@@ -1,5 +1,5 @@
 /* 
- * CS 341: Homework 4
+ * CS 341: Homework 5
  * Purpose: A JavaScript file that allows the dropdown to change. Allows user to select a month from the dropdown menu and have the display change appropriately.
  * Will also send a post to the server and update the list accordingly 
  * File type: .js file
