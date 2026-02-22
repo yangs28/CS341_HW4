@@ -16,7 +16,7 @@ var mysql = require('mysql'),
 var host = "10.6.2.7";              //pdx0mysql00 IP address
 var database = "yangs28@up.edu";   //database name
 var user = "yangs28";                  //username (change to match your db)
-var password = "PASSWORD";          //password (change to match your db, yes this is very poor practice)
+var password = "ZCFKAMMMSEH";          //password (change to match your db, yes this is very poor practice)
 
 /**
  * dbquery
