@@ -3,7 +3,7 @@ var router = express.Router();
 
 /* GET orders page. */
 router.get('/', function(req, res, next) {
-    //Displays json data for the orders page. Data currently hard coded
+    //Displays default json data for the orders page. Data currently hard coded
 res.json({
     title: 'Orders',
     data: [
